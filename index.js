@@ -10,6 +10,12 @@ const passport = require('passport');
 
 const app = express();
 
+app.use(
+  cors({
+    origin: CLIENT_ORIGIN
+  })
+);
+
 const { router: userRouter } = require('./users');
 const { router: questionRouter } = require('./questions');
 const { router: authRouter, basicStrategy, jwtStrategy } = require('./auth');
@@ -19,12 +25,6 @@ passport.use(jwtStrategy);
 app.use(
   morgan(process.env.NODE_ENV === 'production' ? 'common' : 'dev', {
     skip: (req, res) => process.env.NODE_ENV === 'test'
-  })
-);
-
-app.use(
-  cors({
-    origin: CLIENT_ORIGIN
   })
 );
 
